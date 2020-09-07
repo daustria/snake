@@ -137,6 +137,12 @@ void Grid::update()
 	moveSnake();
 }
 
+// handles cases where % operator returns negative integers
+int mod(int a, int b)
+{
+	return (a%b + b) %b;
+}
+
 int Grid::getCellIndex(int x, int y, Direction d) const
 {
 	int row = y/tileHeight;
@@ -150,16 +156,34 @@ int Grid::getCellIndex(int x, int y, Direction d) const
 			retVal = index;
 			break;
 		case Direction::Up:
-			retVal = index - width;
+			retVal = mod((index - width), size);
 			break;
 		case Direction::Down:
-			retVal = index + width;
+			retVal = mod((index + width), size);
 			break;
 		case Direction::Left:
-			retVal = index - 1;
+			if(mod(index, width) == 0)
+			{
+				//if its on the first column of cells, make the
+				//next cell to be the last one on the same row
+				retVal = index + (width - 1);
+			}
+			else
+			{
+				retVal = index - 1;
+			}
 			break;
 		case Direction::Right:
-			retVal = index + 1;
+			if(mod(index, width) == width - 1)
+			{
+				//if its on the last column of cells,
+				//make the next cell the first one on the same row
+				retVal = index - (width - 1);
+			}
+			else
+			{
+				retVal = index + 1;
+			}
 			break;
 	}
 	return retVal;
@@ -172,11 +196,26 @@ void Grid::moveSnake()
 
 	for (auto &i : snakeIndices)
 	{
-		auto snakeCell = cells[i];
+		//Move the snake to the cell its facing
+		//Transform the cell its facing to a snake cell, and transform the snake cell to a normal cell
+		std::shared_ptr<Cell> snakeCell = cells[i];
 		int otherIndex = getCellIndex(snakeCell->x, snakeCell->y, snakeCell->dir());
-		auto otherCell = cells[otherIndex];
+		std::shared_ptr<Cell> otherCell = cells[otherIndex];
 
-		if(otherIndex == foodIndex) {
+		//TODO: Handle the case where the snake runs into itself, when it gets too long.
+		//Also, we might be able to forget storing the indices of the food cell
+		//it seems we dont do much with it...
+		//
+		//we can determine if a cell is a food cell by checking its own state.
+		
+		if(otherCell->isSnake())
+		{
+			//ran into a snake cell, game over
+			hitSnake = true;
+			return;
+		}
+		if(otherIndex == foodIndex) 
+		{
 			grow = true;
 			spawnFood();
 		}

@@ -17,6 +17,10 @@ class CellState
 		virtual void snake(std::shared_ptr<Cell>) {}
 		virtual void food(std::shared_ptr<Cell>) {} 
 		virtual void normal(std::shared_ptr<Cell>) {}
+
+		virtual bool isSnake(std::shared_ptr<Cell>) { return false; }
+		virtual bool isFood(std::shared_ptr<Cell>) { return false; }
+		virtual bool isNormal(std::shared_ptr<Cell>) { return false; }
 	protected:
 		Direction dir_;
 };
@@ -27,6 +31,7 @@ class Normal : public CellState
 		virtual ~Normal() = default;
 		virtual void snake(std::shared_ptr<Cell>) override;
 		virtual void food(std::shared_ptr<Cell>) override;
+		virtual bool isNormal(std::shared_ptr<Cell>) override { return true; }
 };
 
 class Snake : public CellState
@@ -35,6 +40,7 @@ class Snake : public CellState
 		virtual ~Snake() = default;
 		virtual void normal(std::shared_ptr<Cell>) override;
 		Direction dir() override;
+		virtual bool isSnake(std::shared_ptr<Cell>) { return true; }
 };
 
 class Food : public CellState
@@ -43,5 +49,6 @@ class Food : public CellState
 		virtual ~Food() = default;
 		virtual void normal(std::shared_ptr<Cell>) override;
 		virtual void snake(std::shared_ptr<Cell>) override;
+		virtual bool isFood(std::shared_ptr<Cell>) { return true; }
 };
 #endif //CELL_STATE_H

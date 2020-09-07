@@ -20,6 +20,10 @@ class Cell : public sf::Drawable, public std::enable_shared_from_this<Cell>
 		void normal();
 		void food();
 
+		bool isSnake();
+		bool isFood();
+		bool isNormal();
+
 		void changeDir(Direction d);
 		Direction dir();
 

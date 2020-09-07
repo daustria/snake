@@ -12,6 +12,7 @@ class Grid : public sf::Drawable
 		Grid();
 		void processInput(sf::Keyboard::Key);
 		void update();
+		bool gameOver() { return hitSnake; }
 	private:
 		virtual void draw(sf::RenderTarget &, sf::RenderStates states) const;
 		void populateCells();
@@ -32,5 +33,7 @@ class Grid : public sf::Drawable
 		std::vector<std::shared_ptr<Cell>> cells;
 		std::vector<int> snakeIndices;
 		int foodIndex;
+
+		bool hitSnake = false;
 };
 #endif //TILE_MAP_H

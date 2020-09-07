@@ -3,7 +3,7 @@
 
 sf::Time Game::timePerFrame = sf::seconds(5.0f/60.0f);
 
-Game::Game():mWindow(sf::VideoMode(640, 480), "LoremIpsum")
+Game::Game():mWindow(sf::VideoMode(640, 480), "Snake")
 {
 
 }
@@ -22,6 +22,12 @@ void Game::run()
 			processEvents();
 			update();
 		}
+
+		if(gameOver)
+		{
+			return;
+		}
+
 		render();
 	}
 }
@@ -49,6 +55,7 @@ void Game::processEvents()
 void Game::update() 
 {
 	grid.update();
+	gameOver = grid.gameOver();
 }
 
 void Game::render() 

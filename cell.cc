@@ -42,6 +42,22 @@ void Cell::changeDir(Direction d) { state->changeDir(d); }
 
 Direction Cell::dir() { return state->dir(); }
 
+
+bool Cell::isSnake()
+{
+	return state->isSnake(shared_from_this());
+}
+
+bool Cell::isFood()
+{
+	return state->isFood(shared_from_this());
+}
+
+bool Cell::isNormal()
+{
+	return state->isNormal(shared_from_this());
+}
+
 std::ostream &operator<<(std::ostream &out, const Cell &c)
 {
 	out << "x : " << c.x << ", y : " << c.y;

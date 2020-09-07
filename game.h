@@ -17,6 +17,8 @@ class Game
 		sf::RenderWindow mWindow;
 		Grid grid;
 
+		bool gameOver = false;
+
 		static sf::Time timePerFrame;
 		
 };
