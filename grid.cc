@@ -189,6 +189,9 @@ int Grid::getCellIndex(int x, int y, Direction d) const
 	return retVal;
 }
 
+
+//TODO: Sometimes the game can end if the snake turns directions very quickly. 
+// eg. snake is facing down and we quickly press left followed by up
 void Grid::moveSnake()
 {
 	Direction lastDir = cells[snakeIndices[0]]->dir();
@@ -202,11 +205,9 @@ void Grid::moveSnake()
 		int otherIndex = getCellIndex(snakeCell->x, snakeCell->y, snakeCell->dir());
 		std::shared_ptr<Cell> otherCell = cells[otherIndex];
 
-		//TODO: Handle the case where the snake runs into itself, when it gets too long.
-		//Also, we might be able to forget storing the indices of the food cell
-		//it seems we dont do much with it...
-		//
-		//we can determine if a cell is a food cell by checking its own state.
+		//TODO: Remove food index as a member. we can check if its a food cell by
+		//checking its state, like we do with isSnake() 
+		
 		
 		if(otherCell->isSnake())
 		{
