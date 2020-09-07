@@ -44,6 +44,8 @@ void Grid::setupNeighbours()
 
 void Grid::spawnSnake()
 {
+	//We need to spawn the snake somewhere, i just arbitrarily chose to spawn it in this location
+	//Spawning involves transforming the 'normal' cells to snake cells.
 	snakeIndices.push_back(106);
 	snakeIndices.push_back(105);
 	snakeIndices.push_back(104);
